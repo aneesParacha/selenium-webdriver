@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Selenium Test Page</title>
+</head>
+<body>
+    <h1>My Custom Webpage</h1>
+
+    <form id="test-form">
+        <label>Enter your name:</label>
+        <input type="text" name="my-text" id="my-text">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        document.getElementById("test-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const value = document.getElementById("my-text").value;
+            document.getElementById("message").innerText = "Received: " + value;
+        });
+    </script>
+</body>
+</html>
