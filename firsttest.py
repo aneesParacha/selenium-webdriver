@@ -25,7 +25,7 @@ driver.implicitly_wait(5)
 text_box = driver.find_element(By.NAME, "my-text")
 submit_button = driver.find_element(By.CSS_SELECTOR, "button")
 
-text_box.send_keys("Shiraz")
+text_box.send_keys("Anees")
 submit_button.click()
 
 message = driver.find_element(By.ID, "message")
@@ -33,6 +33,6 @@ value = message.text
 
 print(value)
 
-assert value == "Received: Shiraz"
+assert value == "Received: Anees"
 
 driver.quit()
