@@ -1,26 +1,38 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+import os
 
 options = Options()
-options.headless = True
-driver = webdriver.Chrome("/usr/bin/chromedriver", options=options)
+options.add_argument("--no-sandbox")
+options.add_argument("--headless=new")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
 
-driver.get("https://www.selenium.dev/selenium/web/web-form.html")
+service = Service("/usr/bin/chromedriver")
+driver = webdriver.Chrome(service=service, options=options)
+
+# Correct local path inside Docker container
+page_path = "file://" + os.path.abspath("index.html")
+driver.get(page_path)
 
 title = driver.title
-assert title == "form"
+assert title == "Custom Selenium Test Page"
 
-driver.implicitly_wait(0.5)
+driver.implicitly_wait(5)
 
-text_box = driver.find_element(by=By.NAME, value="my-text")
-submit_button = driver.find_element(by=By.CSS_SELECTOR, value="button")
+text_box = driver.find_element(By.NAME, "my-text")
+submit_button = driver.find_element(By.CSS_SELECTOR, "button")
 
-text_box.send_keys("Selenium")
+text_box.send_keys("Shiraz")
 submit_button.click()
 
-message = driver.find_element(by=By.ID, value="message")
+message = driver.find_element(By.ID, "message")
 value = message.text
 
-assert value == "Received!"
+print(value)
+
+assert value == "Received: Shiraz"
+
 driver.quit()
